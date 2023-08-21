@@ -11,44 +11,59 @@ namespace BussinesLogicLayer.Concrete
 {
     public abstract class GenericManager<T> : IGenericService<T> where T : class
     {
-        public T Add(T entity)
+      private readonly  IGenericRepository<T> genericRepository;
+
+        protected GenericManager(IGenericRepository<T> genericRepository)//this consructerlar  arasında veri yollamak için kullanılır...
         {
-            throw new NotImplementedException();
+            this.genericRepository = genericRepository;
         }
 
-        public void Dispose()
+        public T Add(T entity)
         {
-            throw new NotImplementedException();
+           return genericRepository.Add(entity);
+        }
+
+        public void Dispose()//garbage collectora mudahale ettim
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        protected virtual void Dispose(bool disposing)//burayla birlikte
+        {
+            if (disposing)
+            {
+                genericRepository.Dispose();
+            }
         }
 
         public T Get(int id)
         {
-            throw new NotImplementedException();
+           return genericRepository.Get(id);
         }
 
         public List<T> GetAll()
         {
-            throw new NotImplementedException();
+           return genericRepository.GetAll();
         }
 
         public List<T> GetAll(Expression<Func<T, bool>> predicate)
         {
-            throw new NotImplementedException();
+           return genericRepository.GetAll(predicate);
         }
 
         public bool Remove(int id)
         {
-            throw new NotImplementedException();
+            return  genericRepository.Remove(id);
         }
 
         public bool Remove(T entity)
         {
-            throw new NotImplementedException();
+            return genericRepository.Remove(entity);
         }
 
         public T Update(T entity)
         {
-            throw new NotImplementedException();
+            return genericRepository.Update(entity);
         }
     }
 }

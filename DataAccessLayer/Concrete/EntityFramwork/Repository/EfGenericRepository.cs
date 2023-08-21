@@ -1,4 +1,6 @@
 ﻿using DataAccessLayer.Abstract;
+using DataAccessLayer.Concrete.EntityFramwork.Context;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,44 +11,65 @@ namespace DataAccessLayer.Concrete.EntityFramwork.Repository
 {
     public abstract class EfGenericRepository<T> : IGenericRepository<T> where T : class
     {
+        public GuzellikSalonuDbContext  context;
+
+      
+
         public T Add(T entity)
         {
-            throw new NotImplementedException();
+            context.Set<T>().Add(entity);
+            context.SaveChanges();
+            return entity;
         }
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool dispose)
+        {
+            if (dispose)
+            {
+                context.Dispose();
+            }
         }
 
         public T Get(int id)
         {
-            throw new NotImplementedException();
+            var entity = context.Set<T>().Find(id);
+            context.Entry(entity).State = EntityState.Deleted;
+            context.Entry(entity).State = EntityState.Modified;
+            return entity;
         }
 
         public List<T> GetAll()
         {
-            throw new NotImplementedException();
+            return context.Set<T>().AsNoTracking().ToList();//change Tracker'ı Kapattım
         }
 
         public List<T> GetAll(System.Linq.Expressions.Expression<Func<T, bool>> predicate)
         {
-            throw new NotImplementedException();
+            return context.Set<T>().AsNoTracking().Where(predicate).ToList();
         }
 
         public bool Remove(int id)
         {
-            throw new NotImplementedException();
+            return Remove(Get(id));
         }
 
         public bool Remove(T entity)
         {
-            throw new NotImplementedException();
+            context.Set<T>().Remove(entity);
+            return context.SaveChanges() > 0;
         }
 
         public T Update(T entity)
         {
-            throw new NotImplementedException();
+            context.Set<T>().Update(entity);
+            context.SaveChanges();
+            return entity;
         }
     }
 }

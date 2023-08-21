@@ -8,9 +8,11 @@ using System.Threading.Tasks;
 
 namespace DataAccessLayer.Concrete.EntityFramwork.Repository
 {
-    public class EfStockRepository:EfGenericRepository<Stock>,IStockRepository
+    public class EfStockRepository : EfGenericRepository<Stock>, IStockRepository
     {
-
-
+        public List<Stock> StockListing(int stockGroupId)
+        {
+            return context.Stocks.Where(p=>p.StockGroupId == stockGroupId).ToList();
+        }
     }
 }

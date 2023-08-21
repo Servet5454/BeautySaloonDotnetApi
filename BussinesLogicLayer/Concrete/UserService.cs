@@ -24,11 +24,13 @@ namespace Bussiness.Concrete
                     Surname = model.Surname,
                     Color = model.Color,
                     IsOwner = model.IsOwner,
+                    
                 };
                
 
                 context.Users.Add(user);
                 context.SaveChanges();
+                model.Id = user.Id;
                 return model;
             }
         }
@@ -46,6 +48,7 @@ namespace Bussiness.Concrete
         {
             using (var context = new GuzellikSalonuDbContext())
             {
+             
                 return context.Users.ToList();
             }
         }

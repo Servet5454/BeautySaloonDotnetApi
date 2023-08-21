@@ -9,6 +9,6 @@ namespace DataAccessLayer.Abstract
 {
     public interface IStockRepository:IGenericRepository<Stock>
     {
-
+        List<Stock> StockListing(int stockGroupId);
     }
 }
