@@ -3,6 +3,7 @@ using DataAccessLayer;
 using DataAccessLayer.Concrete.EntityFramwork.Context;
 using DataEntitiesLayer.Entities;
 using DataEntitiesLayer.EntitiesModel;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace Bussiness.Concrete
 {
     public class UserService : IUserService
     {
-        public UserModel CreateUser(UserModel model)
+        public async Task<UserModel> CreateUserAsync(UserModel model)
         {
             using (var context = new GuzellikSalonuDbContext())
             {
@@ -24,12 +25,12 @@ namespace Bussiness.Concrete
                     Surname = model.Surname,
                     Color = model.Color,
                     IsOwner = model.IsOwner,
-                    
+
                 };
-               
+
 
                 context.Users.Add(user);
-                context.SaveChanges();
+                await context.SaveChangesAsync();
                 model.Id = user.Id;
                 return model;
             }
@@ -44,12 +45,13 @@ namespace Bussiness.Concrete
             }
         }
 
-        public List<User> GetAllUser()
+      
+        public async Task<List<User>> GetUsersAsync()
         {
             using (var context = new GuzellikSalonuDbContext())
             {
-             
-                return context.Users.ToList();
+                List<User> liste = await context.Users.ToListAsync();
+                return liste;
             }
         }
 

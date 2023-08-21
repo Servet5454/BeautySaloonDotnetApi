@@ -23,12 +23,16 @@ namespace GuzellilSalonuDotnetApi.Controllers
         /// gözükmesini istiyorum
         /// </summary>
         /// <returns></returns>
+       
         [HttpGet]
         [Route("[action]")]
-        public List<User> GetUsers()
+        public async Task<List<User>> GetUsersAsync()
         {
-            return _userService.GetAllUser();
+            List<User> users = await _userService.GetUsersAsync();
+            return users;
         }
+
+
         [HttpGet]
         [Route("[action]")]
         public User GetUserById(int id)
@@ -38,9 +42,10 @@ namespace GuzellilSalonuDotnetApi.Controllers
 
         [HttpPost]
         [Route("[action]")]
-        public UserModel CreateUser([FromQuery]UserModel userModel)
+        public async Task<UserModel> CreateUser([FromQuery]UserModel userModel)
         {
-            return _userService.CreateUser(userModel);
+            UserModel createdUser = await _userService.CreateUserAsync(userModel);
+            return createdUser;
         }
 
         [HttpPut]

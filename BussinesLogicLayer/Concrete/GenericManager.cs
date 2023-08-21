@@ -1,5 +1,5 @@
 ﻿using DataAccessLayer.Abstract;
-using GuzellikSalonuInterfaces;
+using GuzellikSalonuInterfaces.Abstract;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,6 +1,6 @@
 ﻿using DataAccessLayer.Abstract;
 using DataEntitiesLayer.Entities;
-using GuzellikSalonuInterfaces;
+using GuzellikSalonuInterfaces.Abstract;
 using System;
 using System.Collections.Generic;
 using System.Linq;

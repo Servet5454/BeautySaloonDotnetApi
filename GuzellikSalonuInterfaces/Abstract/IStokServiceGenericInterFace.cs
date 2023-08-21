@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GuzellikSalonuInterfaces
+namespace GuzellikSalonuInterfaces.Abstract
 {
     public interface IStokServiceGenericInterFace : IGenericService<Stock>
     {

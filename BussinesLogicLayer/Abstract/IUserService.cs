@@ -10,12 +10,22 @@ namespace BussinesLogicLayer.Abstract
 {
     public interface IUserService
     {
-        List<User> GetAllUser();
+
+        Task<List<User>> GetUsersAsync();
+
 
         User GetUserById(int id);
-        UserModel CreateUser(UserModel model);
+
+
+        Task<UserModel> CreateUserAsync(UserModel model);
+
+
         UserModel UpdateUser(UserModel model);
 
+
+
         void DeleteUser(int id);
+
+
     }
 }
