@@ -1,7 +1,9 @@
 ﻿using BussinesLogicLayer.Abstract;
+using BussinesLogicLayer.Security;
 using DataAccessLayer.Concrete.EntityFramwork.Context;
 using DataEntitiesLayer.Entities;
 using DataEntitiesLayer.EntitiesModel;
+using GuzellikSalonuInterfaces.Abstract;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GuzellilSalonuDotnetApi.Controllers
@@ -11,19 +13,21 @@ namespace GuzellilSalonuDotnetApi.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
-        private readonly GuzellikSalonuDbContext _dbContext;
+        private readonly IEmailService _emailService;
+        private readonly IConfiguration _configuration;
 
-        public UserController(IUserService userService,GuzellikSalonuDbContext context)
+        public UserController(IUserService userService, GuzellikSalonuDbContext context, IEmailService emailService, IConfiguration configuration)
         {
             _userService = userService;
-            _dbContext = context;
+            _emailService = emailService;
+            _configuration = configuration;
         }
 
         /// <summary>
         /// gözükmesini istiyorum
         /// </summary>
         /// <returns></returns>
-       
+
         [HttpGet]
         [Route("[action]")]
         public async Task<List<User>> GetUsersAsync()
@@ -59,6 +63,24 @@ namespace GuzellilSalonuDotnetApi.Controllers
         public void DeleteUser(int id)
         {
             _userService.DeleteUser(id);
+        }
+        [HttpGet]
+        [Route("[action]")]
+        public async Task<IActionResult> denememailtest()
+        {
+           await _emailService.SendEmailAsync("halicarnassus33@gmail.com", "Servet", "halicarnassus33@gmail.com", "deneme","testbaşarılımı",false);
+            return Ok();
+
+        }
+        [HttpGet]
+        [Route("[action]")]
+        public async Task<IActionResult> TokenUretimi()
+        {
+          Token token =  TokenHandlerSinifi.CreateToken(_configuration);
+
+
+            return Ok(token);
+
         }
 
     }

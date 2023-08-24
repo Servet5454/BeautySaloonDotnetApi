@@ -1,29 +1,54 @@
 using BussinesLogicLayer.Abstract;
 using Bussiness.Concrete;
 using DataAccessLayer.Concrete.EntityFramwork.Context;
+using GuzellikSalonuInterfaces.Abstract;
+using GuzellikSalonuInterfaces.Concrete;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
+var MyAllowSpecificOrigins = "_MyAllowSpecificOrigins";
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+                      policy =>
+                      {
+                          policy//localhost1880/ gibi kodu buraya yazýcam https://localhost:7256
+                          .AllowAnyHeader()
+                          .AllowAnyMethod()
+                          .AllowAnyOrigin();
+                      });
+});
 
+
+//JWT Kurulumu Yaptýðým Yer
+builder.Services.AddAuthentication()
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new()
+        {
+            ValidateAudience =true, //oluþturulacak token deðerini kimlerin/hangi origin/sitelerin kullanacaðýný belirliyoruz...
+            ValidateIssuer =true,//Tokeni kimin daðýttýný ifade eder  => www.GuzellikSalonu.com
+            ValidateLifetime =true,//Tokenin Yaþam döngüsü
+            ValidateIssuerSigningKey =true, //Üretilecek tokenin bizim uygulamamýza özgü bir key tanýmladýðýmýz yer...
+
+
+            ValidAudience = builder.Configuration["Token:Audience"],
+            ValidIssuer = builder.Configuration["Token:Issuer"],
+            IssuerSigningKey =new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Token:IssuerSigningKey"])),
+            ClockSkew =TimeSpan.Zero
+        };
+    });
 // Add services to the container.
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddScoped<ITokenHandler, GuzellikSalonuInterfaces.Concrete.TokenHandler>();
 builder.Services.AddScoped<GuzellikSalonuDbContext, GuzellikSalonuDbContext>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 
-
-//builder.Services
-//               .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-//               .AddCookie(opts =>
-//               {
-//                   opts.Cookie.Name = ".GuzellikSalonu";
-//                   opts.ExpireTimeSpan = TimeSpan.FromDays(14);  //Burada cookie'nin ömrünü belirliyoruz...
-//                   opts.SlidingExpiration = false; // Burayý false vererek Kullanýcýnýn 14 gün sonra zorla tekrardan þifreyle vs login olmasýný saðlýyoruz.. true verirsek her girdiðinde süreye 14 gün ekler...
-//                   opts.LoginPath = "/Kullanici/GirisYap"; //Burada Kullanýcý Login Deðilse Direk Tanýmladýðýmýz controller'ýn Action'nýna gidiyor.
-//                                                           // opts.LogoutPath = "/Kullanici/CikisYap"; // Burayý daha tanýmlamadým tanýmlanýcak...!!!
-//                                                           //opts.AccessDeniedPath = "/Home/Anasayfa"; //Burasýda Yetki olmadýðý zaman gideceði yer ben burayý kullanmayý düþünmüyorum silerim ileride...
-//               });
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -38,7 +63,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
