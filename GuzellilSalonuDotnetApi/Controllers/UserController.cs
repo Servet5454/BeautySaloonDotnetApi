@@ -1,7 +1,7 @@
 ﻿using BussinesLogicLayer.Abstract;
-using BussinesLogicLayer.ViewModels;
 using DataAccessLayer.Concrete.EntityFramwork.Context;
 using DataEntitiesLayer.Entities;
+using EntityLayerNitelikKatmani.Models;
 using GuzellikSalonuInterfaces.Abstract;
 using GuzellikSalonuInterfaces.Tokens;
 using Microsoft.AspNetCore.Mvc;

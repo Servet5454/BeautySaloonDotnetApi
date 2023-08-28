@@ -1,4 +1,4 @@
-﻿using BussinesLogicLayer.ViewModels;
+﻿using EntityLayerNitelikKatmani.Models;
 using DataEntitiesLayer.Entities;
 using System;
 using System.Collections.Generic;

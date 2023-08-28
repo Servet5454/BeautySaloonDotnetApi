@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BussinesLogicLayer\BussinesLogicLayer.csproj" />
+    <ProjectReference Include="..\EntityLayerNitelikKatmani\EntityLayerNitelikKatmani.csproj" />
     <ProjectReference Include="..\GuzellikSalonuInterfaces\GuzellikSalonuInterfaces.csproj" />
   </ItemGroup>
 

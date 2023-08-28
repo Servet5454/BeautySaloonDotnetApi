@@ -1,5 +1,5 @@
 ﻿using BussinesLogicLayer.Abstract;
-using BussinesLogicLayer.ViewModels;
+using EntityLayerNitelikKatmani.Models;
 using DataAccessLayer.Concrete.EntityFramwork.Context;
 using Microsoft.EntityFrameworkCore;
 using System;

@@ -18,6 +18,7 @@
   <ItemGroup>
     <ProjectReference Include="..\DataAccessLayer\DataAccessLayer.csproj" />
     <ProjectReference Include="..\DataEntitiesLayer\DataEntitiesLayer.csproj" />
+    <ProjectReference Include="..\EntityLayerNitelikKatmani\EntityLayerNitelikKatmani.csproj" />
     <ProjectReference Include="..\GuzellikSalonuInterfaces\GuzellikSalonuInterfaces.csproj" />
   </ItemGroup>
 
