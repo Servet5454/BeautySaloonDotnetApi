@@ -1,4 +1,4 @@
-﻿using DataEntitiesLayer.EntitiesModel;
+﻿using BussinesLogicLayer.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,5 +11,6 @@ namespace BussinesLogicLayer.Abstract
     {
         Task<bool> RegisterAsync(UserModel model);
         Task<bool> LoginAsync(UserModel model);
+        Task<bool> LoginCheck(UserModel model);
     }
 }

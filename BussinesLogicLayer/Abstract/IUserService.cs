@@ -1,5 +1,5 @@
-﻿using DataEntitiesLayer.Entities;
-using DataEntitiesLayer.EntitiesModel;
+﻿using BussinesLogicLayer.ViewModels;
+using DataEntitiesLayer.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +10,7 @@ namespace BussinesLogicLayer.Abstract
 {
     public interface IUserService
     {
+        Task<bool> UserDatabaseCheck(string email, string password);
 
         Task<List<User>> GetUsersAsync();
 

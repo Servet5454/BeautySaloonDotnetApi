@@ -1,8 +1,8 @@
 ﻿using BussinesLogicLayer.Abstract;
+using BussinesLogicLayer.ViewModels;
 using DataAccessLayer;
 using DataAccessLayer.Concrete.EntityFramwork.Context;
 using DataEntitiesLayer.Entities;
-using DataEntitiesLayer.EntitiesModel;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -18,16 +18,18 @@ namespace Bussiness.Concrete
         {
             using (var context = new GuzellikSalonuDbContext())
             {
+
                 User user = new User()
                 {
-                    UserName = model.UserName,
                     Name = model.Name,
                     Surname = model.Surname,
                     Color = model.Color,
                     IsOwner = model.IsOwner,
+                    UserEmail = model.UserEmail,
+                    UserPassword = model.UserPassword,
+                    UserPassword2 = model.UserPassword2
 
                 };
-
 
                 context.Users.Add(user);
                 await context.SaveChangesAsync();
@@ -45,7 +47,7 @@ namespace Bussiness.Concrete
             }
         }
 
-      
+
         public async Task<List<User>> GetUsersAsync()
         {
             using (var context = new GuzellikSalonuDbContext())
@@ -70,11 +72,14 @@ namespace Bussiness.Concrete
             {
                 User user = new User()
                 {
-                    UserName = model.UserName,
                     Name = model.Name,
                     Surname = model.Surname,
                     Color = model.Color,
                     IsOwner = model.IsOwner,
+                    UserEmail = model.UserEmail,
+                    UserName = model.Name,
+                    UserPassword =model.UserPassword,
+                    UserPassword2 = model.UserPassword2
                 };
 
 
@@ -83,5 +88,23 @@ namespace Bussiness.Concrete
                 return model;
             }
         }
+        public async Task<bool> UserDatabaseCheck(string email, string password)
+        {
+            using (var context = new GuzellikSalonuDbContext())
+            {
+                var user =await context.Users.FirstOrDefaultAsync(p => p.UserPassword == password && p.UserEmail.ToLower() == email.ToLower());
+                if (user != null)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+        }
+
+       
     }
 }

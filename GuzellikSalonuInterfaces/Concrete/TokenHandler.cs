@@ -14,6 +14,13 @@ namespace GuzellikSalonuInterfaces.Concrete
 {
     public class TokenHandler : ITokenHandler
     {
+        private readonly IConfiguration _configuration;
+
+        public TokenHandler(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
         public async Task<Token> CreateToken(IConfiguration configuration)
         {
             Token token = new();
