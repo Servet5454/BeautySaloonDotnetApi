@@ -18,7 +18,7 @@ builder.Services.AddCors(options =>
                           policy//localhost1880/ gibi kodu buraya yazýcam https://localhost:7256
                           .AllowAnyHeader()
                           .AllowAnyMethod()
-                          .AllowAnyOrigin();
+                           .AllowAnyOrigin();
                       });
 });
 

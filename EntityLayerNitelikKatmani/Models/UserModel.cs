@@ -12,6 +12,8 @@ namespace EntityLayerNitelikKatmani.Models
 
         [Required(ErrorMessage = "Please confirm your password.")]
         [Compare(nameof(UserPassword), ErrorMessage = "Passwords do not match.")]
+        //[RegularExpression(@"/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&.])[A-Za-z\d$@$!%*?&.]{6, 15}/",
+        //    ErrorMessage = "Please enter at least 1 uppercase, 1 lowercase, 1 special character, and maximum 15 characters.")] 
         public string? UserPassword2 { get; set; }
 
         [Required(ErrorMessage = "Email is required.")]

@@ -5,6 +5,7 @@ using EntityLayerNitelikKatmani.Models;
 using GuzellikSalonuInterfaces.Abstract;
 using GuzellikSalonuInterfaces.Tokens;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace GuzellilSalonuDotnetApi.Controllers
 {
@@ -95,10 +96,11 @@ namespace GuzellilSalonuDotnetApi.Controllers
 
         [HttpPost]
         [Route("[action]")]
-        public async Task<IActionResult> Login([FromQuery] LoginModel model)
+        public async Task<IActionResult> Login(LoginModel model)
         {
             if (!ModelState.IsValid)
             {
+              
                 return BadRequest("Incomplete information entry");
             }
             else
@@ -119,7 +121,7 @@ namespace GuzellilSalonuDotnetApi.Controllers
         }
         [HttpPost]
         [Route("[action]")]
-        public async Task<IActionResult> Register([FromQuery] UserModel model)
+        public async Task<IActionResult> Register( UserModel model)
         {
 
             if (!ModelState.IsValid)
