@@ -7,10 +7,12 @@ using GuzellikSalonuInterfaces.Concrete;
 using GuzellikSalonuInterfaces.Email;
 using GuzellikSalonuInterfaces.Tokens;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using System.Net;
 
 namespace GuzellilSalonuDotnetApi.Controllers
 {
+    [EnableRateLimiting("ratepolicy")]
     [ApiController]
     [Route("[controller]")]
     public class UserController : ControllerBase
@@ -32,7 +34,7 @@ namespace GuzellilSalonuDotnetApi.Controllers
         /// gözükmesini istiyorum
         /// </summary>
         /// <returns></returns>
-
+        
         [HttpGet]
         [Route("[action]")]
         public async Task<List<User>> GetUsersAsync()
