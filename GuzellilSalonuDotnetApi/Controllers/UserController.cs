@@ -3,6 +3,8 @@ using DataAccessLayer.Concrete.EntityFramwork.Context;
 using DataEntitiesLayer.Entities;
 using EntityLayerNitelikKatmani.Models;
 using GuzellikSalonuInterfaces.Abstract;
+using GuzellikSalonuInterfaces.Concrete;
+using GuzellikSalonuInterfaces.Email;
 using GuzellikSalonuInterfaces.Tokens;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -100,7 +102,6 @@ namespace GuzellilSalonuDotnetApi.Controllers
         {
             if (!ModelState.IsValid)
             {
-              
                 return BadRequest("Incomplete information entry");
             }
             else
@@ -116,12 +117,12 @@ namespace GuzellilSalonuDotnetApi.Controllers
                     return BadRequest("An error occurred during the login process.");
                 }
             }
-
-
         }
+
+
         [HttpPost]
         [Route("[action]")]
-        public async Task<IActionResult> Register( UserModel model)
+        public async Task<IActionResult> Register(UserModel model)
         {
 
             if (!ModelState.IsValid)
@@ -153,6 +154,28 @@ namespace GuzellilSalonuDotnetApi.Controllers
             }
 
 
+        }
+        [HttpPost]
+        [Route("[action]")]
+        public async Task<IActionResult> denememailtest()
+        {
+            try
+            {
+ //await _emailService.SendEmailAsync("halicarnassus33@gmail.com", "Servet", "halicarnassus33@gmail.com", "deneme", "testbaşarılımı", false);
+
+            MailRequest mailRequest = new MailRequest();
+            mailRequest.ToEmail = "halicarnassus33@gmail.com";
+            mailRequest.Subject = "Mail Yollanıyor";
+            mailRequest.Body = await _emailService.GetHtmlContentAsync();
+            await _emailService.SendEmailWithMimeAsync(mailRequest);
+                 return Ok();
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+           
         }
     }
 }

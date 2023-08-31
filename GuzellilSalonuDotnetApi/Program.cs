@@ -3,6 +3,7 @@ using Bussiness.Concrete;
 using DataAccessLayer.Concrete.EntityFramwork.Context;
 using GuzellikSalonuInterfaces.Abstract;
 using GuzellikSalonuInterfaces.Concrete;
+using GuzellikSalonuInterfaces.Email;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -43,9 +44,10 @@ builder.Services.AddAuthentication()
     });
 // Add services to the container.
 builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<ITokenHandler, GuzellikSalonuInterfaces.Concrete.TokenHandler>();
 builder.Services.AddScoped<GuzellikSalonuDbContext, GuzellikSalonuDbContext>();
+builder.Services.AddScoped<EmailSettings>();
+builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 
