@@ -57,38 +57,38 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 //Rate Limit Settings
-builder.Services.AddRateLimiter(p => p.AddFixedWindowLimiter(policyName: "ratepolicy", options =>
-{
-    options.Window = TimeSpan.FromSeconds(5);
-    options.PermitLimit = 1;
-    options.QueueLimit = 0;
-    options.QueueProcessingOrder = System.Threading.RateLimiting.QueueProcessingOrder.OldestFirst;
-}).RejectionStatusCode=401);
+//builder.Services.AddRateLimiter(p => p.AddFixedWindowLimiter(policyName: "ratepolicy", options =>
+//{
+//    options.Window = TimeSpan.FromSeconds(5);
+//    options.PermitLimit = 1;
+//    options.QueueLimit = 0;
+//    options.QueueProcessingOrder = System.Threading.RateLimiting.QueueProcessingOrder.OldestFirst;
+//}).RejectionStatusCode=401);
 
-builder.Services.AddRateLimiter(p => p.AddSlidingWindowLimiter(policyName: "slidingpolicy", options =>
-{
-    options.Window = TimeSpan.FromSeconds(5);
-    options.PermitLimit = 1;
-    options.SegmentsPerWindow = 2;
-    options.QueueLimit = 0;
-    options.QueueProcessingOrder = System.Threading.RateLimiting.QueueProcessingOrder.OldestFirst;
-}).RejectionStatusCode = 401);
+//builder.Services.AddRateLimiter(p => p.AddSlidingWindowLimiter(policyName: "slidingpolicy", options =>
+//{
+//    options.Window = TimeSpan.FromSeconds(5);
+//    options.PermitLimit = 1;
+//    options.SegmentsPerWindow = 2;
+//    options.QueueLimit = 0;
+//    options.QueueProcessingOrder = System.Threading.RateLimiting.QueueProcessingOrder.OldestFirst;
+//}).RejectionStatusCode = 401);
 
-builder.Services.AddRateLimiter(p => p.AddConcurrencyLimiter(policyName: "concurrencypolicy", options =>
-{
-    options.PermitLimit = 1;
-    options.QueueLimit = 0;
-    options.QueueProcessingOrder = System.Threading.RateLimiting.QueueProcessingOrder.OldestFirst;
-}).RejectionStatusCode = 401);
+//builder.Services.AddRateLimiter(p => p.AddConcurrencyLimiter(policyName: "concurrencypolicy", options =>
+//{
+//    options.PermitLimit = 1;
+//    options.QueueLimit = 0;
+//    options.QueueProcessingOrder = System.Threading.RateLimiting.QueueProcessingOrder.OldestFirst;
+//}).RejectionStatusCode = 401);
 
-builder.Services.AddRateLimiter(p => p.AddTokenBucketLimiter(policyName: "tokenpolicy", options =>
-{
-    options.TokenLimit = 1;
-    options.QueueLimit = 0;
-    options.QueueProcessingOrder = System.Threading.RateLimiting.QueueProcessingOrder.OldestFirst;
-    options.ReplenishmentPeriod =TimeSpan.FromSeconds(5);
-    options.TokensPerPeriod = 2;
-}).RejectionStatusCode = 401);
+//builder.Services.AddRateLimiter(p => p.AddTokenBucketLimiter(policyName: "tokenpolicy", options =>
+//{
+//    options.TokenLimit = 1;
+//    options.QueueLimit = 0;
+//    options.QueueProcessingOrder = System.Threading.RateLimiting.QueueProcessingOrder.OldestFirst;
+//    options.ReplenishmentPeriod =TimeSpan.FromSeconds(5);
+//    options.TokensPerPeriod = 2;
+//}).RejectionStatusCode = 401);
 
 
 var app = builder.Build();

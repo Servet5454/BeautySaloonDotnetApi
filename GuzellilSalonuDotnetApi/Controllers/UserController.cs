@@ -12,7 +12,7 @@ using System.Net;
 
 namespace GuzellilSalonuDotnetApi.Controllers
 {
-    [EnableRateLimiting("ratepolicy")]
+    //[EnableRateLimiting("ratepolicy")]
     [ApiController]
     [Route("[controller]")]
     public class UserController : ControllerBase
