@@ -1,4 +1,5 @@
 using BussinesLogicLayer.Abstract;
+using BussinesLogicLayer.Concrete;
 using Bussiness.Concrete;
 using DataAccessLayer.Concrete.EntityFramwork.Context;
 using GuzellikSalonuInterfaces.Abstract;
@@ -49,6 +50,7 @@ builder.Services.AddScoped<ITokenHandler, GuzellikSalonuInterfaces.Concrete.Toke
 builder.Services.AddScoped<GuzellikSalonuDbContext, GuzellikSalonuDbContext>();
 builder.Services.AddScoped<EmailSettings>();
 builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddScoped<IcostumerService, CostumerService>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 

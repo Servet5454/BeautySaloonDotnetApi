@@ -1,6 +1,8 @@
 ﻿using BussinesLogicLayer.Abstract;
+using BussinesLogicLayer.Concrete;
 using DataAccessLayer.Concrete.EntityFramwork.Context;
 using DataEntitiesLayer.Entities;
+using DataEntitiesLayer.Entities.Costumers;
 using EntityLayerNitelikKatmani.Models;
 using GuzellikSalonuInterfaces.Abstract;
 using GuzellikSalonuInterfaces.Concrete;
@@ -21,20 +23,22 @@ namespace GuzellilSalonuDotnetApi.Controllers
         private readonly IEmailService _emailService;
         private readonly IConfiguration _configuration;
         private readonly ITokenHandler _tokenHandler;
+        private readonly IcostumerService _costumerService;
 
-        public UserController(IUserService userService, GuzellikSalonuDbContext context, IEmailService emailService, IConfiguration configuration, ITokenHandler tokenHandler)
+        public UserController(IUserService userService, GuzellikSalonuDbContext context, IEmailService emailService, IConfiguration configuration, ITokenHandler tokenHandler, IcostumerService costumerService)
         {
             _userService = userService;
             _emailService = emailService;
             _configuration = configuration;
             _tokenHandler = tokenHandler;
+            _costumerService = costumerService;
         }
 
         /// <summary>
         /// gözükmesini istiyorum
         /// </summary>
         /// <returns></returns>
-        
+
         [HttpGet]
         [Route("[action]")]
         public async Task<List<User>> GetUsersAsync()
@@ -163,26 +167,43 @@ namespace GuzellilSalonuDotnetApi.Controllers
         {
             try
             {
- //await _emailService.SendEmailAsync("halicarnassus33@gmail.com", "Servet", "halicarnassus33@gmail.com", "deneme", "testbaşarılımı", false);
+                //await _emailService.SendEmailAsync("halicarnassus33@gmail.com", "Servet", "halicarnassus33@gmail.com", "deneme", "testbaşarılımı", false);
 
-            MailRequest mailRequest = new MailRequest();
-            mailRequest.ToEmail = "halicarnassus33@gmail.com";
-            mailRequest.Subject = "Mail Yollanıyor";
-            mailRequest.Body = await _emailService.GetHtmlContentAsync();
-            await _emailService.SendEmailWithMimeAsync(mailRequest);
-                 return Ok();
+                MailRequest mailRequest = new MailRequest();
+                mailRequest.ToEmail = "halicarnassus33@gmail.com";
+                mailRequest.Subject = "Mail Yollanıyor";
+                mailRequest.Body = await _emailService.GetHtmlContentAsync();
+                await _emailService.SendEmailWithMimeAsync(mailRequest);
+                return Ok();
             }
             catch (Exception ex)
             {
 
                 throw;
             }
-           
+
+        }
+        [HttpGet]
+        [Route("[action]")]
+        public async Task<List<Costumer>> GetAllCostumersAsync()
+        {
+            List<Costumer> costumers = await _costumerService.GetAllCostumerrAsync();
+            return costumers;
+        }
+
+        [HttpPost]
+        [Route("[action]")]
+        public async Task<IActionResult> CreateCostumer(CostumerModel model)
+        {
+
+            await _costumerService.CreateCostumerAsync(model);
+            return Ok(model);
+
         }
     }
 }
 
-
+//https://localhost:7137/User/CreateCostumer bu url ile oluşturulacak
 
 
 

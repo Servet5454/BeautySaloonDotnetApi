@@ -4,6 +4,7 @@ using DataAccessLayer.Concrete.EntityFramwork.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccessLayer.Migrations
 {
     [DbContext(typeof(GuzellikSalonuDbContext))]
-    partial class GuzellikSalonuDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230904142218_mig4")]
+    partial class mig4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -93,108 +96,6 @@ namespace DataAccessLayer.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Costumers");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Balance = 500,
-                            CostumerEmail = "musteri1@example.com",
-                            CostumerName = "Müşteri 1",
-                            CostumerPhone = "555-111-1111",
-                            CostumerSurname = "Soyadı 1",
-                            Point = 100
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Balance = 500,
-                            CostumerEmail = "musteri1@example.com",
-                            CostumerName = "Müşteri 2",
-                            CostumerPhone = "555-111-1111",
-                            CostumerSurname = "Soyadı 2",
-                            Point = 100
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Balance = 500,
-                            CostumerEmail = "musteri1@example.com",
-                            CostumerName = "Müşteri 3",
-                            CostumerPhone = "555-111-1111",
-                            CostumerSurname = "Soyadı 3",
-                            Point = 100
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Balance = 500,
-                            CostumerEmail = "musteri1@example.com",
-                            CostumerName = "Müşteri 4",
-                            CostumerPhone = "555-111-1111",
-                            CostumerSurname = "Soyadı 4",
-                            Point = 100
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Balance = 500,
-                            CostumerEmail = "musteri1@example.com",
-                            CostumerName = "Müşteri 5",
-                            CostumerPhone = "555-111-1111",
-                            CostumerSurname = "Soyadı 5",
-                            Point = 100
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Balance = 500,
-                            CostumerEmail = "musteri1@example.com",
-                            CostumerName = "Müşteri 6",
-                            CostumerPhone = "555-111-1111",
-                            CostumerSurname = "Soyadı 6",
-                            Point = 100
-                        },
-                        new
-                        {
-                            Id = 7,
-                            Balance = 500,
-                            CostumerEmail = "musteri1@example.com",
-                            CostumerName = "Müşteri 7",
-                            CostumerPhone = "555-111-1111",
-                            CostumerSurname = "Soyadı 7",
-                            Point = 100
-                        },
-                        new
-                        {
-                            Id = 8,
-                            Balance = 500,
-                            CostumerEmail = "musteri1@example.com",
-                            CostumerName = "Müşteri 8",
-                            CostumerPhone = "555-111-1111",
-                            CostumerSurname = "Soyadı 8",
-                            Point = 100
-                        },
-                        new
-                        {
-                            Id = 9,
-                            Balance = 500,
-                            CostumerEmail = "musteri1@example.com",
-                            CostumerName = "Müşteri 9",
-                            CostumerPhone = "555-111-1111",
-                            CostumerSurname = "Soyadı 9",
-                            Point = 100
-                        },
-                        new
-                        {
-                            Id = 10,
-                            Balance = 500,
-                            CostumerEmail = "musteri1@example.com",
-                            CostumerName = "Müşteri 10",
-                            CostumerPhone = "555-111-1111",
-                            CostumerSurname = "Soyadı 10",
-                            Point = 100
-                        });
                 });
 
             modelBuilder.Entity("DataEntitiesLayer.Entities.Stock", b =>

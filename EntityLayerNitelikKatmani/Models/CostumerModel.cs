@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataEntitiesLayer.Entities.Costumers
+namespace EntityLayerNitelikKatmani.Models
 {
-    public class Costumer
+    public class CostumerModel
     {
         public int Id { get; set; }
         public string? CostumerName { get; set; }
@@ -15,7 +15,5 @@ namespace DataEntitiesLayer.Entities.Costumers
         public string? CostumerPhone { get; set; }
         public int Point { get; set; }
         public int Balance { get; set; }
-
-
     }
 }
