@@ -23,7 +23,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GuzellikSalonuCaching", "Gu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EntityLayerNitelikKatmani", "EntityLayerNitelikKatmani\EntityLayerNitelikKatmani.csproj", "{412A9DCE-8D42-4A56-BEB8-9821514F5BAB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FrontEndMvcWithVue", "FrontEndMvcWithVue\FrontEndMvcWithVue.csproj", "{407FD85E-54C4-4134-A681-980F35754C65}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FrontEndMvcWithVue", "FrontEndMvcWithVue\FrontEndMvcWithVue.csproj", "{407FD85E-54C4-4134-A681-980F35754C65}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RabbitMqMailSenderWorkerService", "RabbitMqMailSender\RabbitMqMailSenderWorkerService.csproj", "{7C62D4B9-F1C7-4785-9762-EB214BCE7B56}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -75,6 +77,10 @@ Global
 		{407FD85E-54C4-4134-A681-980F35754C65}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{407FD85E-54C4-4134-A681-980F35754C65}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{407FD85E-54C4-4134-A681-980F35754C65}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C62D4B9-F1C7-4785-9762-EB214BCE7B56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C62D4B9-F1C7-4785-9762-EB214BCE7B56}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C62D4B9-F1C7-4785-9762-EB214BCE7B56}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C62D4B9-F1C7-4785-9762-EB214BCE7B56}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
