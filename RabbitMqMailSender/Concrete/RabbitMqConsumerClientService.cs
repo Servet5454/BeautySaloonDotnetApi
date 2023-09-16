@@ -56,8 +56,14 @@ namespace RabbitMqMailSenderWorkerService.Concrete
            
             var baseurl = "https://localhost:7137/User/denememailtest";
             using(var httpClient = new HttpClient())
-            {
-                var response = await httpClient.PostAsync();
+            {//TODO Buralarda mail gönderme işlemlerini yapıcazz...
+                var response = await httpClient.PostAsync(baseurl,null);
+                if(response.IsSuccessStatusCode)
+                {
+                    _logger.LogInformation("mailler Yollandı");
+                    _channel.BasicAck(@event.DeliveryTag, false);
+
+                }
             }
             
         }
