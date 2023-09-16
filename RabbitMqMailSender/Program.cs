@@ -10,7 +10,7 @@ IHost host = Host.CreateDefaultBuilder(args)
     {
 
         services.AddSingleton<RabbitMqConsumerClientService>();
-        services.AddSingleton<IRabbitMqQlientService,RabbitMqClientService>();
+        services.AddSingleton<RabbitMqClientService>();
         IConfiguration configuration = hostContext.Configuration;
        
 

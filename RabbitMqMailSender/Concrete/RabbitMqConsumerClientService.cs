@@ -1,10 +1,13 @@
 ﻿using GuzellikSalonuInterfaces.Concrete;
+using GuzellikSalonuInterfaces.Email;
 using RabbitMQ.Client;
+using RabbitMQ.Client.Events;
 using RabbitMqMailSender;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace RabbitMqMailSenderWorkerService.Concrete
@@ -34,7 +37,29 @@ namespace RabbitMqMailSenderWorkerService.Concrete
 
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            return _rabbitMqClientsService.ExecuteAsync(stoppingToken);//todo burada kaldımmmm
+            var consumer = new AsyncEventingBasicConsumer(_channel);
+            _channel.BasicConsume
+                (
+                RabbitMqClientService.queveName,
+                autoAck:false,
+                consumer:consumer
+                );
+            consumer.Received += Consumer_Received;
+            return Task.CompletedTask;//TODO burada kaldımmmm
+        }
+
+
+        private async Task Consumer_Received(object sender, BasicDeliverEventArgs @event)
+        {
+            
+            var createEmailMessage =JsonSerializer.Deserialize<MailRequest>(Encoding.UTF8.GetString(@event.Body.ToArray()));
+           
+            var baseurl = "https://localhost:7137/User/denememailtest";
+            using(var httpClient = new HttpClient())
+            {
+                var response = await httpClient.PostAsync();
+            }
+            
         }
     }
 }

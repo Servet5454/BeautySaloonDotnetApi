@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace GuzellikSalonuInterfaces.Concrete
 {
-    public class RabbitMqClientService : IRabbitMqQlientService
+    public class RabbitMqClientService : IRabbitMqClientService
     {
         private readonly RabbitMqClientService _rabbitMqClientService;
         private readonly ConnectionFactory _connectionFactory;
@@ -42,7 +42,10 @@ namespace GuzellikSalonuInterfaces.Concrete
             _channel = _connection.CreateModel();
             _channel.ExchangeDeclare(ExchangeName, type: "direct", true, false);
             _channel.QueueDeclare(queveName, true, false, false, null);
-            _channel.QueueBind(exchange: ExchangeName, queue: queveName, routingKey: RoutingEmail);
+            _channel.QueueBind(exchange: ExchangeName,
+                queue: queveName,
+                routingKey: RoutingEmail
+                );
             _logger.LogInformation("RabbitMq İle Bağlantı Kuruldu");
             return _channel;
         }
@@ -60,26 +63,7 @@ namespace GuzellikSalonuInterfaces.Concrete
 
         public bool Publish(MailRequest mailRequest)
         {
-            try
-            {
-                var channel = _rabbitMqClientService.Connect();
-                var bodyString = JsonSerializer.Serialize(mailRequest.Body);
-                var bodyByte = Encoding.UTF8.GetBytes(bodyString);
-                var properties = channel.CreateBasicProperties();
-                properties.Persistent = true;
-                channel.BasicPublish(exchange: ExchangeName,
-                                     routingKey: RoutingEmail,
-                                     basicProperties: properties,
-                                     body: bodyByte);
-                return true;
-
-            }
-            catch (Exception)
-            {
-
-                return false;
-            }
-
+            throw new NotImplementedException();
         }
     }
 }

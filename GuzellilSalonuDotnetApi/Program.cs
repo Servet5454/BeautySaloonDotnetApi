@@ -19,7 +19,8 @@ builder.Services.AddSingleton(sp => new ConnectionFactory()
     Uri = new Uri(builder.Configuration.GetConnectionString("RabbitMQ")),
     DispatchConsumersAsync = true
 });
-builder.Services.AddSingleton<IRabbitMqQlientService,RabbitMqClientService>();
+builder.Services.AddSingleton<RabbitMqClientService>();
+builder.Services.AddSingleton<RabbitMqPublisher>();
 
 builder.Services.AddCors(options =>
 {
@@ -101,7 +102,7 @@ builder.Services.AddSwaggerGen();
 //}).RejectionStatusCode = 401);
 
 
-var app = builder.Build();
+ var app = builder.Build();
 
 //Rate Limit Settings
 app.UseRateLimiter();

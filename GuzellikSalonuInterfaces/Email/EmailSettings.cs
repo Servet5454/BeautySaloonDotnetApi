@@ -12,7 +12,7 @@ namespace GuzellikSalonuInterfaces.Email
         public string? Password { get; set; } = "adwinbhtxnlfnvgd";
         public string? Host { get; set; } = "smtp.gmail.com";
         public string? DisplayName { get; set; }
-        public int Port { get; set; } = 587;
+        public int Port { get; set; } = 587;       
 
     }
 }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace GuzellikSalonuInterfaces.Abstract
 {
-    public interface IRabbitMqQlientService
+    public interface IRabbitMqClientService
     {
         public IModel Connect();
         public void Dispose();

@@ -24,14 +24,18 @@ namespace GuzellilSalonuDotnetApi.Controllers
         private readonly IConfiguration _configuration;
         private readonly ITokenHandler _tokenHandler;
         private readonly IcostumerService _costumerService;
+        private readonly RabbitMqClientService _rabbitMqQClientService;
+        private readonly RabbitMqPublisher rabbitMqPublisher;
 
-        public UserController(IUserService userService, GuzellikSalonuDbContext context, IEmailService emailService, IConfiguration configuration, ITokenHandler tokenHandler, IcostumerService costumerService)
+        public UserController(IUserService userService, GuzellikSalonuDbContext context, IEmailService emailService, IConfiguration configuration, ITokenHandler tokenHandler, IcostumerService costumerService, RabbitMqClientService rabbitMqQClientService, RabbitMqPublisher rabbitMqPublisher)
         {
             _userService = userService;
             _emailService = emailService;
             _configuration = configuration;
             _tokenHandler = tokenHandler;
             _costumerService = costumerService;
+            _rabbitMqQClientService = rabbitMqQClientService;
+            this.rabbitMqPublisher = rabbitMqPublisher;
         }
 
         /// <summary>
@@ -163,7 +167,7 @@ namespace GuzellilSalonuDotnetApi.Controllers
         }
         [HttpPost]
         [Route("[action]")]
-        public async Task<IActionResult> denememailtest()
+        public async Task<IActionResult> denememailtest(EmailSettings emailSettings)
         {
             try
             {
@@ -183,6 +187,26 @@ namespace GuzellilSalonuDotnetApi.Controllers
             }
 
         }
+
+
+        [HttpPost]
+        [Route("[action]")]
+        public async Task<IActionResult> SendEmailWithRabbitMq(MailRequest mailRequest)
+        {
+            rabbitMqPublisher.Publish(new MailRequest
+            {
+                Body =mailRequest.Body,
+                ToEmail = mailRequest.ToEmail,
+                Subject = mailRequest.Subject,
+                
+                
+            });
+            
+           return Ok(mailRequest);
+
+        }
+
+
         [HttpGet]
         [Route("[action]")]
         public async Task<List<Costumer>> GetAllCostumersAsync()
