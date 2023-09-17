@@ -1,8 +1,8 @@
-﻿using GuzellikSalonuInterfaces.Concrete;
-using GuzellikSalonuInterfaces.Email;
+﻿
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using RabbitMqMailSender;
+using RabbitMqMailSenderWorkerService.EmailModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,20 +15,24 @@ namespace RabbitMqMailSenderWorkerService.Concrete
     public class RabbitMqConsumerClientService : BackgroundService
     {
         private readonly ILogger<RabbitMqConsumerClientService> _logger;
-        private readonly RabbitMqConsumerClientService _rabbitMqClientsService;
+        private readonly RabbitMqClient _rabbitMqClientsService;
         private readonly IServiceProvider _serviceProvider;
         private IModel _channel;
-        private readonly RabbitMqClientService _rabbitMqClientService;
-        public RabbitMqConsumerClientService(ILogger<RabbitMqConsumerClientService> logger, RabbitMqConsumerClientService rabbitMqClientsService, IServiceProvider serviceProvider, RabbitMqClientService rabbitMqClientService)
+        private readonly RabbitMqClient _rabbitMqClientService;
+        private readonly EmailService _emailService;
+        public RabbitMqConsumerClientService(ILogger<RabbitMqConsumerClientService> logger, RabbitMqClient rabbitMqClientsService, IServiceProvider serviceProvider, EmailService emailService)
         {
             _logger = logger;
             _rabbitMqClientsService = rabbitMqClientsService;
             _serviceProvider = serviceProvider;
-            _rabbitMqClientService = rabbitMqClientService;
+            _emailService = emailService;
         }
+
+
+
         public override Task StartAsync(CancellationToken cancellationToken)
         {
-            _channel = _rabbitMqClientService.Connect();
+            _channel = _rabbitMqClientsService.Connect();
             _channel.BasicQos(0, 1, false);
 
 
@@ -40,9 +44,9 @@ namespace RabbitMqMailSenderWorkerService.Concrete
             var consumer = new AsyncEventingBasicConsumer(_channel);
             _channel.BasicConsume
                 (
-                RabbitMqClientService.queveName,
-                autoAck:false,
-                consumer:consumer
+                RabbitMqClient.queveName,
+                autoAck: false,
+                consumer: consumer
                 );
             consumer.Received += Consumer_Received;
             return Task.CompletedTask;//TODO burada kaldımmmm
@@ -51,21 +55,41 @@ namespace RabbitMqMailSenderWorkerService.Concrete
 
         private async Task Consumer_Received(object sender, BasicDeliverEventArgs @event)
         {
-            
-            var createEmailMessage =JsonSerializer.Deserialize<MailRequest>(Encoding.UTF8.GetString(@event.Body.ToArray()));
-           
-            var baseurl = "https://localhost:7137/User/denememailtest";
-            using(var httpClient = new HttpClient())
-            {//TODO Buralarda mail gönderme işlemlerini yapıcazz...
-                var response = await httpClient.PostAsync(baseurl,null);
-                if(response.IsSuccessStatusCode)
+
+             var createEmailMessage =JsonSerializer.Deserialize<MailRequest>(Encoding.UTF8.GetString(@event.Body.ToArray()));      
+            var baseurl = "https://localhost:7137/User/GetAllCostumers";
+            using (var httpClient = new HttpClient())
+            {
+                var response = await httpClient.GetAsync(baseurl);
+                if (response.IsSuccessStatusCode)
                 {
+                    var responseContent = await response.Content.ReadAsStringAsync();
+                    var options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true // JSON özellik adlarını büyük/küçük harf duyarlılığı olmadan eşleştir
+                    };
+
+                    var customers = JsonSerializer.Deserialize<List<Costumer>>(responseContent, options);
+                    var emailler =customers.Select(p=>p.CostumerEmail).ToList();
+                    MailRequest mailRequest = new MailRequest();
+                    
+                    mailRequest.Subject = "BeautyElla Güzellik Salonu Dev Kampanya";
+                    mailRequest.Body = await _emailService.GetHtmlContentAsync();
+                    
+                    for (int i = 0; i < emailler.Count; i++)
+                    {
+                        mailRequest.ToEmail = emailler[i];
+                        await _emailService.SendEmailWithMimeAsync(mailRequest);
+                    }
+
+                   
                     _logger.LogInformation("mailler Yollandı");
                     _channel.BasicAck(@event.DeliveryTag, false);
 
                 }
             }
-            
+
+
         }
     }
 }

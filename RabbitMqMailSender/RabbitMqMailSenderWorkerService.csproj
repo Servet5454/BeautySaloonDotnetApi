@@ -8,11 +8,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MailKit" Version="4.2.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
+    <PackageReference Include="MimeKit" Version="4.2.0" />
     <PackageReference Include="RabbitMQ.Client" Version="6.5.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\GuzellikSalonuInterfaces\GuzellikSalonuInterfaces.csproj" />
   </ItemGroup>
 </Project>

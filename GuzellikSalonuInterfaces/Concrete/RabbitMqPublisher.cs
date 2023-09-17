@@ -23,12 +23,12 @@ namespace GuzellikSalonuInterfaces.Concrete
             try
             {
                 var channel = _rabbitMqClientsService.Connect();
-                var bodyString = JsonSerializer.Serialize(mailRequest.Body);
+                var bodyString = JsonSerializer.Serialize(mailRequest);
                 var bodyByte = Encoding.UTF8.GetBytes(bodyString);
                 var properties = channel.CreateBasicProperties();
                 properties.Persistent = true;
                 channel.BasicPublish(exchange:RabbitMqClientService.ExchangeName,
-                    routingKey:RabbitMqClientService.ExchangeName,
+                    routingKey:RabbitMqClientService.RoutingEmail,
                     mandatory:false,
                     basicProperties:properties,
                     body:bodyByte);

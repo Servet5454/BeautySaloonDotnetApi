@@ -1,16 +1,17 @@
-using GuzellikSalonuInterfaces.Abstract;
-using GuzellikSalonuInterfaces.Concrete;
+
 using RabbitMQ.Client;
 using RabbitMqMailSender;
 using RabbitMqMailSenderWorkerService.Abstract;
 using RabbitMqMailSenderWorkerService.Concrete;
+using RabbitMqMailSenderWorkerService.EmailModels;
 
 IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices((hostContext, services) =>
     {
 
-        services.AddSingleton<RabbitMqConsumerClientService>();
-        services.AddSingleton<RabbitMqClientService>();
+        services.AddSingleton<RabbitMqClient>();
+        services.AddSingleton<EmailSettings>();
+        services.AddSingleton<EmailService>();
         IConfiguration configuration = hostContext.Configuration;
        
 
@@ -20,7 +21,7 @@ IHost host = Host.CreateDefaultBuilder(args)
             Uri = new Uri(configuration.GetConnectionString("RabbitMQ")),
             DispatchConsumersAsync = true
         });
-        services.AddHostedService<Worker>();
+        services.AddHostedService<RabbitMqConsumerClientService>();
     })
     .Build();
 
