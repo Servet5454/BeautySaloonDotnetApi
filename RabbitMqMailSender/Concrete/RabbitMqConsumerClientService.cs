@@ -66,7 +66,7 @@ namespace RabbitMqMailSenderWorkerService.Concrete
                     var responseContent = await response.Content.ReadAsStringAsync();
                     var options = new JsonSerializerOptions
                     {
-                        PropertyNameCaseInsensitive = true // JSON özellik adlarını büyük/küçük harf duyarlılığı olmadan eşleştir
+                        PropertyNameCaseInsensitive = true // JSON özellik adlarını büyük/küçük harf duyarlılığı olmADAN EŞLEŞTİRME ÖZELLİĞİNİ YAPIYORUZ BURADA.....
                     };
 
                     var customers = JsonSerializer.Deserialize<List<Costumer>>(responseContent, options);
