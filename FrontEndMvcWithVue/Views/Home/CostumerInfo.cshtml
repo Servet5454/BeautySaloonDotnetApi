@@ -584,35 +584,20 @@
 
     <script>
         const app = Vue.createApp({
-
             data() {
                 return {
                     customers: [],
-                    sortKey: '',
+                    sortKey: "",
                     sortOrders: {},
-                }
-
+                };
             },
             methods: {
-                showCustomerDetails(customer) {
-                    Swal.fire({
-                        title: `Müşteri Detayları - ${customer.costumerName} ${customer.costumerSurname}`,
-                        html: `
-                                        <b>ID:</b> ${customer.id}<br>
-                                        <b>İsim:</b> ${customer.costumerName}<br>
-                                        <b>Soyisim:</b> ${customer.costumerSurname}<br>
-                                        <b>Email:</b> ${customer.costumerEmail}<br>
-                                        <b>Tel No:</b> ${customer.costumerPhone}<br>
-                                        <b>Kredi:</b> ${customer.balance}<br>
-                                        <b>Puan:</b> ${customer.point}<br>
-                                      `,
-                        confirmButtonText: 'Tamam',
-                    });
-                },
+                // ...Diğer yöntemler...
+
                 addNewCustomer() {
                     // SweetAlert ile bir form göster
                     Swal.fire({
-                        title: 'Yeni Müşteri Ekle',
+                        title: "Yeni Müşteri Ekle",
                         html:
                             '<input id="customerName" class="swal2-input" placeholder="İsim">' +
                             '<input id="customerSurname" class="swal2-input" placeholder="Soyisim">' +
@@ -622,62 +607,87 @@
                             '<input id="customerPoint" class="swal2-input" placeholder="Puan">',
                         focusConfirm: false,
                         showCancelButton: true,
-                        confirmButtonText: 'Ekle',
+                        confirmButtonText: "Ekle",
                         preConfirm: () => {
-                            const customerName = Swal.getPopup().querySelector('#customerName').value;
-                            const customerSurname = Swal.getPopup().querySelector('#customerSurname').value;
-                            const customerEmail = Swal.getPopup().querySelector('#customerEmail').value;
-                            const customerPhone = Swal.getPopup().querySelector('#customerPhone').value;
-                            const customerBalance = Swal.getPopup().querySelector('#customerBalance').value;
-                            const customerPoint = Swal.getPopup().querySelector('#customerPoint').value;
+                            const customerName = Swal.getPopup().querySelector("#customerName")
+                                .value;
+                            const customerSurname = Swal.getPopup().querySelector(
+                                "#customerSurname"
+                            ).value;
+                            const customerEmail = Swal.getPopup().querySelector("#customerEmail")
+                                .value;
+                            const customerPhone = Swal.getPopup().querySelector("#customerPhone")
+                                .value;
+                            const customerBalance = Swal.getPopup().querySelector(
+                                "#customerBalance"
+                            ).value;
+                            const customerPoint = Swal.getPopup().querySelector("#customerPoint")
+                                .value;
 
-                            // Yeni müşteri bilgilerini burada işle
-                            // Örneğin, bu bilgileri bir nesne olarak alabilir ve customers dizisine ekleyebilirsiniz.
-                            const CostumerModel = {
-                                id: null, // Geçici bir ID atayabilirsiniz
-                                CostumerName: customerName,
-                                CostumerSurname: customerSurname,
-                                CostumerEmail: customerEmail,
-                                CostumerPhone: customerPhone,
-                                Balance: customerBalance,
-                                Point: customerPoint,
+                            
+                            const customerModel = {
+                                id: null, 
+                                costumerName: customerName,
+                                costumerSurname: customerSurname,
+                                costumerEmail: customerEmail,
+                                costumerPhone: customerPhone,
+                                balance: customerBalance,
+                                point: customerPoint,
                             };
-                            axios.post('https://localhost:7137/User/CreateCustomer', CostumerModel)
-                                .then(response => {
+
+                            const jsonData = JSON.stringify(customerModel);
+
+                            axios
+                                .post(
+                                    "https://localhost:7137/User/CreateCostumer",
+                                    jsonData,
+                                    {
+                                        headers: {
+                                            "Content-Type": "application/json", 
+                                        },
+                                    }
+                                )
+                                .then((response) => {
                                     if (response.status === 200) {
-                                        this.$swal('Müşteri başarıyla eklendi!', '', 'success');
-                                        console.log(this.newCustomer);
-                                    } else {
-                                        this.$swal('Müşteri eklenirken bir hata oluştu.', '', 'error');
-                                        console.log(this.newCustomer);
+                                        console.log(response.data);
+                                        this.$swal("Müşteri başarıyla eklendi!", "", "success");
+                                       
+                                        this.customers.push(response.data);
+
+
+                                    }
+                                    else {
+                                        this.$swal(
+                                            "Müşteri eklenirken bir hata oluştu.",
+                                            "",
+                                            "error"
+                                        );
+                                        console.error("Error:", response.data);
                                     }
                                 })
-                                .catch(error => {
-                                    console.error('Error:', error);
-                                    this.$swal('Müşteri eklenirken bir hata oluştu.', '', 'error');
+                                .catch((error) => {
+                                    console.error("Error:", error);
+                                    
                                 });
-
-                            this.customers.push(newCustomer); // Yeni müşteriyi listeye ekleyin
                         },
                     });
                 },
             },
-
             mounted() {
                 // Axios ile API'den veri çekme
-                axios.get('https://localhost:7137/User/GetAllCostumers')
+                axios
+                    .get("https://localhost:7137/User/GetAllCostumers")
                     .then((response) => {
-                        // Çekilen veriyi 'customers' veri özelliğine atama
                         this.customers = response.data;
                         console.log(this.customers);
                     })
                     .catch((error) => {
-                        console.error('Veri çekme hatası:', error);
+                        console.error("Veri çekme hatası:", error);
                     });
             },
-
         }).mount("#app");
     </script>
+
 
 
 </body>

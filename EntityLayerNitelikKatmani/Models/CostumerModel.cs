@@ -8,7 +8,7 @@ namespace EntityLayerNitelikKatmani.Models
 {
     public class CostumerModel
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
         public string? CostumerName { get; set; }
         public string? CostumerSurname { get; set; }
         public string? CostumerEmail { get; set; }

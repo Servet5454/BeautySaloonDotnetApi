@@ -220,7 +220,7 @@ namespace GuzellilSalonuDotnetApi.Controllers
         public async Task<IActionResult> CreateCostumer(CostumerModel model)
         {
 
-            await _costumerService.CreateCostumerAsync(model);
+            _costumerService.CreateCostumerAsync(model).Wait();
             return Ok(model);
 
         }
